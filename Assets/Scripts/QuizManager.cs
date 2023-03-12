@@ -34,6 +34,8 @@ public class QuizManager : MonoBehaviour
     public GameObject[] Option;
     Color startingColor;  
     [SerializeField] Image image; 
+    public Button[] answerButtons;
+    GameObject clickedButton;
 
 
     public void Start()
@@ -45,8 +47,11 @@ public class QuizManager : MonoBehaviour
         InGameScoreTxt.text = ingamescore + "/" + totalQuestions;
         GoPanel.SetActive(false);
         PausePanel.SetActive(false);
+        answerButtons = GameObject.FindObjectsOfType<Button>();
         generateQuestion();
     }
+
+
 
     void Update()
     {
@@ -81,7 +86,6 @@ public class QuizManager : MonoBehaviour
         PausePanel.SetActive(true);
         AudioManager.Instance.PlaySound("Click");
         AudioManager.Instance.StopSound("Music");
-
         keepTiming = false;
 
 
@@ -118,7 +122,6 @@ public class QuizManager : MonoBehaviour
         {
             nextBtn.SetActive(true);
             nextSprite.SetActive(true);
-
             PlayerPrefs.SetInt(categoryName + "score", 1);
         }
         else
@@ -126,22 +129,29 @@ public class QuizManager : MonoBehaviour
             nextBtn.SetActive(false);
             nextSprite.SetActive(false);
         }
-
     }
 
     public void correct()
     {
+        
+        foreach (Button button in answerButtons)
+        {
+            button.interactable = false;
+        }
+
         inGameScore();
         score += 1;
         QnA.RemoveAt(currentQuestion);
         Invoke("generateQuestion", 0.4f);
-        StartCoroutine(ColorRight());
-
-
-
     }
+    
     public void incorrect()
     {
+        foreach (Button button in answerButtons)
+        {
+            button.interactable = false;
+        }
+
         if (life >= 1)
         {
             life--;
@@ -155,10 +165,11 @@ public class QuizManager : MonoBehaviour
         inGameScore();
         QnA.RemoveAt(currentQuestion);
         if (life != 0)
+        {
             Invoke("generateQuestion", 0.4f);
+        }
         else
             generateQuestion();
-
     }
 
     void SetAnswers()
@@ -184,21 +195,17 @@ public class QuizManager : MonoBehaviour
         {  
             currentQuestion = Random.Range(0, QnA.Count);
             QuestionTxt.text = QnA[currentQuestion].Question;
+            foreach (Button button in answerButtons)
+            {
+                button.interactable = true;
+            }
             SetAnswers();
         }
         else
         {
             GameOver();
         }
-
     }
-    IEnumerator ColorRight()
-    {  for (int j = 0; j < 2; j++)
-        {
-            Option[m].GetComponent<Image>().color = Color.green;
-            yield return new WaitForSeconds(0.1f);
-            Option[m].GetComponent<Image>().color = image.color;
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
+    
+    
 }

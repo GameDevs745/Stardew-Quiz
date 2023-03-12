@@ -5,6 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
+    public void SelectQuiz()
+    {
+        SceneManager.LoadScene("ChooseQuiz");
+        AudioManager.Instance.PlaySound("Click");
+    }
+    public void HomeScreen()
+    {
+        SceneManager.LoadScene("MainMenu");
+        AudioManager.Instance.PlaySound("Click");
+    }
     public void playCrops()
     {
         SceneManager.LoadScene("Crops");
@@ -42,7 +52,7 @@ public class SceneSwitcher : MonoBehaviour
     }
     public void Back()
     {
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene("ChooseQuiz");
         AudioManager.Instance.PlaySound("Click");
         AudioManager.Instance.StopSound("Music");
     }
