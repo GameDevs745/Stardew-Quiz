@@ -16,11 +16,14 @@ public class SceneSwitcher : MonoBehaviour
         AudioManager.Instance.PlaySound("Click");
     }
     public void playCrops()
-    {
+    { if(PlayerPrefs.GetInt("currentEnergy") >= 10)
+        {
         SceneManager.LoadScene("Crops");
         AudioManager.Instance.PlaySound("Click");
         AudioManager.Instance.PlaySound("Music");
-        
+        }
+    else
+            AudioManager.Instance.PlaySound("Incorrect");
     }
     public void playVillagers()
     {
