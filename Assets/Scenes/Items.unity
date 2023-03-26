@@ -943,7 +943,7 @@ MonoBehaviour:
   InGameScoreTxt: {fileID: 992070445}
   score: 0
   ingamescore: 0
-  timeLimit: 121
+  timeLimit: 61
   timerText: {fileID: 820650107}
   nextBtn: {fileID: 1573474153}
   nextSprite: {fileID: 488625757}

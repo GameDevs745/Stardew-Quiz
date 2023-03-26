@@ -50,6 +50,13 @@ public class SceneSwitcher : MonoBehaviour
         AudioManager.Instance.PlaySound("Music");
 
     }
+    public void playSecret()
+    {
+        SceneManager.LoadScene("Secret");
+        AudioManager.Instance.PlaySound("Click");
+        AudioManager.Instance.PlaySound("Music");
+
+    }
     public void Back()
     {
         SceneManager.LoadScene("ChooseQuiz");

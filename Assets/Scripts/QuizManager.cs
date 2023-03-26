@@ -49,6 +49,7 @@ public class QuizManager : MonoBehaviour
         PausePanel.SetActive(false);
         answerButtons = GameObject.FindObjectsOfType<Button>();
         generateQuestion();
+
     }
 
 
@@ -101,7 +102,7 @@ public class QuizManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.StopSound("Music");
+        AudioManager.Instance.PlaySound("Music");
     }
 
     public void inGameScore()
@@ -118,7 +119,7 @@ public class QuizManager : MonoBehaviour
         ScoreTxt.text = "You got " + score + "/" + totalQuestions + " questions right!";
 
         categoryName = SceneManager.GetActiveScene().name;
-        if (score >= 10)
+        if (score == 10)
         {
             nextBtn.SetActive(true);
             nextSprite.SetActive(true);
@@ -128,6 +129,10 @@ public class QuizManager : MonoBehaviour
         {
             nextBtn.SetActive(false);
             nextSprite.SetActive(false);
+        }
+        if (score == 50)
+        {
+            PlayerPrefs.SetInt(categoryName + "score", 2);
         }
     }
 
@@ -184,10 +189,6 @@ public class QuizManager : MonoBehaviour
                 m = i;
             }
         }
-    }
-    void CheckAnswers()
-    {
-
     }
     void generateQuestion()
     {
