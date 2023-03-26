@@ -16,48 +16,74 @@ public class SceneSwitcher : MonoBehaviour
         AudioManager.Instance.PlaySound("Click");
     }
     public void playCrops()
-    { if(PlayerPrefs.GetInt("currentEnergy") >= 10)
+    {   if(PlayerPrefs.GetInt("currentEnergy") >= 10)
         {
         SceneManager.LoadScene("Crops");
         AudioManager.Instance.PlaySound("Click");
         AudioManager.Instance.PlaySound("Music");
         }
-    else
+        else
             AudioManager.Instance.PlaySound("Incorrect");
+
     }
     public void playVillagers()
     {
-        SceneManager.LoadScene("Villagers");
-        AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        if (PlayerPrefs.GetInt("currentEnergy") >= 10)
+        {
+            SceneManager.LoadScene("Villagers");
+            AudioManager.Instance.PlaySound("Click");
+            AudioManager.Instance.PlaySound("Music");
+        }
+        else
+            AudioManager.Instance.PlaySound("Incorrect");
 
     }
     public void playLocations()
     {
-        SceneManager.LoadScene("Locations");
-        AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        if (PlayerPrefs.GetInt("currentEnergy") >= 10)
+        {
+            SceneManager.LoadScene("Locations");
+            AudioManager.Instance.PlaySound("Click");
+            AudioManager.Instance.PlaySound("Music");
+        }
+        else
+            AudioManager.Instance.PlaySound("Incorrect");
 
     }
     public void playItems()
     {
-        SceneManager.LoadScene("Items");
-        AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        if (PlayerPrefs.GetInt("currentEnergy") >= 10)
+        {
+            SceneManager.LoadScene("Items");
+            AudioManager.Instance.PlaySound("Click");
+            AudioManager.Instance.PlaySound("Music");
+        }
+        else
+            AudioManager.Instance.PlaySound("Incorrect");
 
     }
     public void playFood()
     {
-        SceneManager.LoadScene("Food");
-        AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        if (PlayerPrefs.GetInt("currentEnergy") >= 10)
+        {
+            SceneManager.LoadScene("Food");
+            AudioManager.Instance.PlaySound("Click");
+            AudioManager.Instance.PlaySound("Music");
+        }
+        else
+            AudioManager.Instance.PlaySound("Incorrect");
 
     }
     public void playSecret()
     {
-        SceneManager.LoadScene("Secret");
-        AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        if (PlayerPrefs.GetInt("currentEnergy") >= 10)
+        {
+            SceneManager.LoadScene("Secret");
+            AudioManager.Instance.PlaySound("Click");
+            AudioManager.Instance.PlaySound("Music");
+        }
+        else
+            AudioManager.Instance.PlaySound("Incorrect");
 
     }
     public void Back()
