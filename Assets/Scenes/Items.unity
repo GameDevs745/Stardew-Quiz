@@ -923,7 +923,7 @@ MonoBehaviour:
     - You find it on the beach
     - You get it along the rest of the tools on the first day
     CorrectAnswer: 2
-  - Question: WhIch item is the rarest out of the following?
+  - Question: Which item is the rarest out of the following?
     Answers:
     - Prismatic Shard
     - Radioactive Bar
