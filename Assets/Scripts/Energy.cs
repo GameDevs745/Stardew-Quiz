@@ -11,7 +11,7 @@ public class Energy : MonoBehaviour
     [SerializeField] Slider energyBar;
     private int maxEnergy = 50;
     private int currentEnergy;
-    private int restoreDuration = 10;
+    private int restoreDuration = 1800;
     private DateTime nextEnergyTime;
     private DateTime lastEnergyTime;
     private bool isRestoring = false;
@@ -35,16 +35,16 @@ public class Energy : MonoBehaviour
         if(currentEnergy >= 10)
         {
             currentEnergy-=10;
+
             UpdateEnergy();
             if(isRestoring == false)
             {
-                if(currentEnergy + 5 == maxEnergy)
+                if(currentEnergy + 10 == maxEnergy)
                 {
                     nextEnergyTime = AddDuration(DateTime.Now, restoreDuration);
                 }
                 StartCoroutine(RestoreEnergy());
             }
-
         }
         else
         {
@@ -54,6 +54,8 @@ public class Energy : MonoBehaviour
     public void AddEnergy()
     {
         currentEnergy += 10;
+        UpdateEnergy();
+        UpdateEnergyTimer();
     }
 
 

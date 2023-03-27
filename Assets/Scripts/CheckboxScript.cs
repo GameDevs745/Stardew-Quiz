@@ -29,9 +29,10 @@ public class CheckboxScript : MonoBehaviour
         if (check == 5)
         {
             Secret.gameObject.SetActive(true);
-            wrongbox[5].SetActive(true);
             if (PlayerPrefs.GetInt(categoryNames[5] + "score") == 2)
                 checkbox[5].SetActive(true);
+            else
+                wrongbox[5].SetActive(true);
        }
 
 

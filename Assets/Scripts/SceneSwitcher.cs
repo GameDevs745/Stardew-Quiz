@@ -12,7 +12,7 @@ public class SceneSwitcher : MonoBehaviour
     }
     public void HomeScreen()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("ChooseQuiz");
         AudioManager.Instance.PlaySound("Click");
     }
     public void playCrops()

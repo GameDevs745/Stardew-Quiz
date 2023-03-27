@@ -6,11 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: a8229729bd196ef448e164542861c31d
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+    path: Assets/Scenes/ChooseQuiz.unity
+    guid: 55ee4670657039642809390741a7f1ef
   - enabled: 1
     path: Assets/Scenes/Crops.unity
     guid: fc3e5af3d5fb3414aa7a5135717083ea
@@ -26,4 +23,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Food.unity
     guid: 5aaa6c86bd6c79f4cbe51aee77aad1c0
+  - enabled: 1
+    path: Assets/Scenes/Secret.unity
+    guid: fa775f3b2e5293f4a96d607c39db81ae
+  - enabled: 0
+    path: Assets/Scenes/MainMenu.unity
+    guid: a8229729bd196ef448e164542861c31d
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: fb2b39be8d63c4947af18eb736a36742
   m_configObjects: {}
