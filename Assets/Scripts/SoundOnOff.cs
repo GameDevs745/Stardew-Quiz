@@ -9,52 +9,63 @@ using UnityEngine.EventSystems;
 
 public class SoundOnOff : MonoBehaviour
 {
-    public GameObject soundOnSprite;
-    public GameObject soundOffSprite;
-    public GameObject musicOnSprite;
-    public GameObject musicOffSprite;
-    public GameObject soundBtn;
-    public GameObject musicBtn;
+    [SerializeField] Image musicOnIcon;
+    [SerializeField] Image musicOffIcon;
     public GameObject settingsPanel;
-    public int musicInt = 1;
-    public int soundInt = 1;
-    public float volume = 0;
+    private bool muted = false;
     void Start()
     {
-         PlayerPrefs.GetInt("musicInt", musicInt);
-         PlayerPrefs.GetInt("soundInt", soundInt);
-    }
-    public void music()
-    {
-        if (musicInt == 1)
+         if(!PlayerPrefs.HasKey("muted"))
         {
-            AudioManager.Instance.PlaySound("Click");
-            musicOffSprite.SetActive(false);
-            musicOnSprite.SetActive(true);
-            PlayerPrefs.SetInt("musicInt", 0);
+            PlayerPrefs.SetInt("muted", 0);
+            Load();
         }
         else
         {
-            musicOnSprite.SetActive(false);
-            musicOffSprite.SetActive(true);
-            PlayerPrefs.SetInt("musicInt", 1);
+            Load();
+        }
+        UpdateButtonIcon();
+
+    }
+
+    public void music()
+    {
+        if (muted == false)
+        {
+            muted = true;
+        }
+        else
+        {
+            muted = false;
+        }
+        Save();
+        UpdateButtonIcon();
+    }
+    private void Load()
+    {
+        muted = PlayerPrefs.GetInt("muted") == 1;
+    }
+    private void Save()
+    {
+        PlayerPrefs.SetInt("muted", muted ? 1 : 0);
+    }
+    private void UpdateButtonIcon()
+    {
+        if(muted == false)
+        {
+            musicOnIcon.enabled = true;
+            musicOffIcon.enabled =false;
+        }
+        else
+        {
+            musicOnIcon.enabled = false;
+            musicOffIcon.enabled = true;
         }
     }
-        public void sound()
+
+    public void sound()
         {  
-            if (soundInt == 1)
-            {
-                AudioManager.Instance.PlaySound("Click");
-                soundOffSprite.SetActive(false);
-                soundOnSprite.SetActive(true);
-                PlayerPrefs.SetInt("soundInt", 0);
-        }
-            else
-            {   
-                soundOnSprite.SetActive(false);
-                soundOffSprite.SetActive(true);
-                PlayerPrefs.SetInt("soundInt", 1);
-        }
+           
         }
  public void settingsOn()
     {
@@ -66,10 +77,4 @@ public class SoundOnOff : MonoBehaviour
         AudioManager.Instance.PlaySound("Click");
         settingsPanel.SetActive(false);
     }
-    void Update()
-    {
-        musicInt = PlayerPrefs.GetInt("musicInt");
-        soundInt = PlayerPrefs.GetInt("soundInt");
-    }
-
 }

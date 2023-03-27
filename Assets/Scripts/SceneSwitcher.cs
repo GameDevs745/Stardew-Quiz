@@ -20,7 +20,7 @@ public class SceneSwitcher : MonoBehaviour
         {
         SceneManager.LoadScene("Crops");
         AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -32,7 +32,7 @@ public class SceneSwitcher : MonoBehaviour
         {
             SceneManager.LoadScene("Villagers");
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -44,7 +44,7 @@ public class SceneSwitcher : MonoBehaviour
         {
             SceneManager.LoadScene("Locations");
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -56,7 +56,7 @@ public class SceneSwitcher : MonoBehaviour
         {
             SceneManager.LoadScene("Items");
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -68,7 +68,7 @@ public class SceneSwitcher : MonoBehaviour
         {
             SceneManager.LoadScene("Food");
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -80,7 +80,7 @@ public class SceneSwitcher : MonoBehaviour
         {
             SceneManager.LoadScene("Secret");
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -90,7 +90,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         SceneManager.LoadScene("ChooseQuiz");
         AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.StopSound("Music");
+        AudioManager.Instance.PlayMusic("Music");
     }
 
 }
