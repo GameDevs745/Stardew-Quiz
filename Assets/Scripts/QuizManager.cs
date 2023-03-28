@@ -83,8 +83,8 @@ public class QuizManager : MonoBehaviour
         if (currentTime <= 0)
         {
             //Game Over
-            AudioManager.Instance.PlaySound("Lose");
             AudioManager.Instance.StopSound("Music");
+            AudioManager.Instance.PlaySound("Lose");
             GameOver();
         }
     }
@@ -95,7 +95,7 @@ public class QuizManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("currentEnergy", currentEnergy - 10);
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else
@@ -132,7 +132,7 @@ public class QuizManager : MonoBehaviour
             PlayerPrefs.SetInt("currentEnergy", currentEnergy - 10);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             AudioManager.Instance.PlaySound("Click");
-            AudioManager.Instance.PlaySound("Music");
+            AudioManager.Instance.PlayMusic("Music");
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
