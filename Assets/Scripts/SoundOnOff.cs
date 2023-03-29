@@ -12,6 +12,8 @@ public class SoundOnOff : MonoBehaviour
     [SerializeField] Image musicOnIcon;
     [SerializeField] Image musicOffIcon;
     public GameObject settingsPanel;
+    public Slider musicSlider;
+    public float valueM;
     private bool muted = false;
     void Start()
     {
@@ -25,7 +27,11 @@ public class SoundOnOff : MonoBehaviour
             Load();
         }
         UpdateButtonIcon();
+        musicSlider.value = PlayerPrefs.GetFloat("musicSlider");
+        if(musicSlider.value == 0)
+            musicSlider.interactable = false;
 
+        
     }
 
     public void music()
@@ -41,6 +47,22 @@ public class SoundOnOff : MonoBehaviour
         Save();
         UpdateButtonIcon();
     }
+    public void musicChecker()
+    {   if (musicSlider.value == 0)
+        {
+            muted = true;
+            musicSlider.interactable = false;
+        }
+        else
+        {
+            muted = false;
+            musicSlider.interactable = true;
+        }
+
+        Save();
+        UpdateButtonIcon();
+
+    } 
     private void Load()
     {
         muted = PlayerPrefs.GetInt("muted") == 1;
@@ -54,7 +76,7 @@ public class SoundOnOff : MonoBehaviour
         if(muted == false)
         {
             musicOnIcon.enabled = true;
-            musicOffIcon.enabled =false;
+            musicOffIcon.enabled = false;
         }
         else
         {
@@ -62,12 +84,24 @@ public class SoundOnOff : MonoBehaviour
             musicOffIcon.enabled = true;
         }
     }
-
-    public void sound()
-        {  
-           
+    public void CheckerM()
+    {
+        if (musicSlider.value != 0)
+            valueM = musicSlider.value;
+        if (PlayerPrefs.GetInt("muted") == 1)
+        {
+            musicSlider.value = 0;
+            musicSlider.interactable = false;
         }
- public void settingsOn()
+        else
+        {
+            musicSlider.value = valueM;
+            musicSlider.interactable = true;
+        }
+    }
+
+
+    public void settingsOn()
     {
         AudioManager.Instance.PlaySound("Click");
         settingsPanel.SetActive(true);
@@ -76,5 +110,10 @@ public class SoundOnOff : MonoBehaviour
     {
         AudioManager.Instance.PlaySound("Click");
         settingsPanel.SetActive(false);
+    }
+    public void Update()
+    {
+        PlayerPrefs.SetFloat("musicSlider", musicSlider.value);
+
     }
 }

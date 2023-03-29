@@ -11,6 +11,8 @@ public class SoundOnOff2 : MonoBehaviour
 {
     [SerializeField] Image soundOnIcon;
     [SerializeField] Image soundOffIcon;
+    public Slider soundSlider;
+    public float valueS;
     private bool nonmuted = false;
     void Start()
     {
@@ -24,6 +26,9 @@ public class SoundOnOff2 : MonoBehaviour
             Load();
         }
         UpdateButtonIcon();
+        soundSlider.value = PlayerPrefs.GetFloat("soundSlider");
+        if (soundSlider.value == 0)
+            soundSlider.interactable = false;
 
     }
 
@@ -39,6 +44,23 @@ public class SoundOnOff2 : MonoBehaviour
         }
         Save();
         UpdateButtonIcon();
+    }
+    public void soundChecker()
+    {
+        if (soundSlider.value == 0)
+        {
+            nonmuted = true;
+            soundSlider.interactable = false;
+        }
+        else
+        {
+            nonmuted = false;
+            soundSlider.interactable = true;
+        }
+
+        Save();
+        UpdateButtonIcon();
+
     }
     private void Load()
     {
@@ -60,6 +82,29 @@ public class SoundOnOff2 : MonoBehaviour
             soundOnIcon.enabled = false;
             soundOffIcon.enabled = true;
         }
+    }
+    public void CheckerS()
+    {
+        if (soundSlider.value != 0)
+        {
+            valueS = soundSlider.value;
+        }
+        if (PlayerPrefs.GetInt("nonmuted") == 1)
+        {
+            soundSlider.value = 0;
+            soundSlider.interactable = false;
+        }
+        else
+        {
+            soundSlider.value = valueS;
+            soundSlider.interactable = true;
+        }
+
+    }
+    public void Update()
+    {
+        PlayerPrefs.SetFloat("soundSlider", soundSlider.value);
+
     }
 }
 
