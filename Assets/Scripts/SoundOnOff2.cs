@@ -27,7 +27,13 @@ public class SoundOnOff2 : MonoBehaviour
             Load();
         }
         UpdateButtonIcon();
-        soundSlider.value = PlayerPrefs.GetFloat("soundSlider");
+        if (PlayerPrefs.GetInt("FirstTimeSound") != 1)
+        {
+            soundSlider.value = 0.5f;
+            PlayerPrefs.SetInt("FirstTimeSound", 1);
+        }
+        else
+            soundSlider.value = PlayerPrefs.GetFloat("soundSlider");
         if (soundSlider.value == 0)
         {
             soundSlider.interactable = false;

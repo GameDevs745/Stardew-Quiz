@@ -17,7 +17,7 @@ public class SoundOnOff : MonoBehaviour
     private bool muted = false;
     private int seer = 0;
     void Start()
-    {
+    {  
          if(!PlayerPrefs.HasKey("muted"))
         {
             PlayerPrefs.SetInt("muted", 0);
@@ -28,7 +28,15 @@ public class SoundOnOff : MonoBehaviour
             Load();
         }
         UpdateButtonIcon();
-        musicSlider.value = PlayerPrefs.GetFloat("musicSlider");
+        if (PlayerPrefs.GetInt("FirstTimeMusic") != 1)
+        {
+            musicSlider.value = 0.5f;
+            PlayerPrefs.SetInt("FirstTimeMusic", 1);
+        }
+        else
+        {
+            musicSlider.value = PlayerPrefs.GetFloat("musicSlider");
+        }
         if (musicSlider.value == 0)
         {
             musicSlider.interactable = false;
