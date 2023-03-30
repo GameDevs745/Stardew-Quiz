@@ -15,6 +15,7 @@ public class SoundOnOff : MonoBehaviour
     public Slider musicSlider;
     public float valueM;
     private bool muted = false;
+    private int seer = 0;
     void Start()
     {
          if(!PlayerPrefs.HasKey("muted"))
@@ -23,15 +24,28 @@ public class SoundOnOff : MonoBehaviour
             Load();
         }
         else
-        {
+        { 
             Load();
         }
         UpdateButtonIcon();
         musicSlider.value = PlayerPrefs.GetFloat("musicSlider");
-        if(musicSlider.value == 0)
+        if (musicSlider.value == 0)
+        {
             musicSlider.interactable = false;
+            muted = true;
+            Save();
+            UpdateButtonIcon();
+            seer = 1;
+        }
+        else
+        {
+            musicSlider.interactable = true;
+            muted = false;
+            Save();
+            UpdateButtonIcon();
+            
+        }
 
-        
     }
 
     public void music()
@@ -39,13 +53,21 @@ public class SoundOnOff : MonoBehaviour
         if (muted == false)
         {
             muted = true;
+            musicSlider.interactable = false;
         }
         else
         {
             muted = false;
+            musicSlider.interactable = true;
         }
+        if (musicSlider.value == 0 || muted == true)
+            AudioManager.Instance.ToggleMusic();
+
+        if(seer == 1)
+            AudioManager.Instance.ToggleMusic();
         Save();
         UpdateButtonIcon();
+
     }
     public void musicChecker()
     {   if (musicSlider.value == 0)
@@ -58,7 +80,6 @@ public class SoundOnOff : MonoBehaviour
             muted = false;
             musicSlider.interactable = true;
         }
-
         Save();
         UpdateButtonIcon();
 
@@ -87,19 +108,21 @@ public class SoundOnOff : MonoBehaviour
     public void CheckerM()
     {
         if (musicSlider.value != 0)
+        {
             valueM = musicSlider.value;
+            PlayerPrefs.SetFloat("valueM", valueM);
+        }
         if (PlayerPrefs.GetInt("muted") == 1)
         {
             musicSlider.value = 0;
             musicSlider.interactable = false;
         }
-        else
+        else 
         {
-            musicSlider.value = valueM;
+            musicSlider.value = PlayerPrefs.GetFloat("valueM");
             musicSlider.interactable = true;
         }
     }
-
 
     public void settingsOn()
     {
@@ -112,8 +135,7 @@ public class SoundOnOff : MonoBehaviour
         settingsPanel.SetActive(false);
     }
     public void Update()
-    {
+    {   
         PlayerPrefs.SetFloat("musicSlider", musicSlider.value);
-
     }
 }

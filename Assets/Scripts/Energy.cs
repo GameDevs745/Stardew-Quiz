@@ -52,10 +52,15 @@ public class Energy : MonoBehaviour
         }
     }
     public void AddEnergy()
-    {
-        currentEnergy += 10;
-        UpdateEnergy();
-        UpdateEnergyTimer();
+    { if (currentEnergy < maxEnergy)
+        {
+            currentEnergy += 10;
+            UpdateEnergy();
+            UpdateEnergyTimer();
+            AudioManager.Instance.PlaySound("Click");
+        }
+        else
+            AudioManager.Instance.PlaySound("Incorrect");
     }
 
 

@@ -113,7 +113,10 @@ public class QuizManager : MonoBehaviour
     public void adreward()
     {
         if (PlayerPrefs.GetInt("currentEnergy") <= 40)
+        {
             PlayerPrefs.SetInt("currentEnergy", currentEnergy + 10);
+            AudioManager.Instance.PlaySound("Click");
+        }
         else
             AudioManager.Instance.PlaySound("Incorrect");
 

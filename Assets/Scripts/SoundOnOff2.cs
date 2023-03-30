@@ -14,6 +14,7 @@ public class SoundOnOff2 : MonoBehaviour
     public Slider soundSlider;
     public float valueS;
     private bool nonmuted = false;
+    private int seer2 = 0;
     void Start()
     {
         if (!PlayerPrefs.HasKey("nonmuted"))
@@ -28,7 +29,21 @@ public class SoundOnOff2 : MonoBehaviour
         UpdateButtonIcon();
         soundSlider.value = PlayerPrefs.GetFloat("soundSlider");
         if (soundSlider.value == 0)
+        {
             soundSlider.interactable = false;
+            nonmuted = true;
+            Save();
+            UpdateButtonIcon();
+            seer2 = 1;
+        }
+        else
+        {
+            soundSlider.interactable = true;
+            nonmuted = false;
+            Save();
+            UpdateButtonIcon();
+            
+        }
 
     }
 
@@ -37,11 +52,18 @@ public class SoundOnOff2 : MonoBehaviour
         if (nonmuted == false)
         {
             nonmuted = true;
+            soundSlider.interactable = false;
         }
         else
         {
             nonmuted = false;
+            soundSlider.interactable = true;
         }
+        if (soundSlider.value == 0 || nonmuted == true)
+            AudioManager.Instance.ToggleSFX();
+
+        if (seer2 == 1)
+            AudioManager.Instance.ToggleSFX();
         Save();
         UpdateButtonIcon();
     }
@@ -57,7 +79,6 @@ public class SoundOnOff2 : MonoBehaviour
             nonmuted = false;
             soundSlider.interactable = true;
         }
-
         Save();
         UpdateButtonIcon();
 
@@ -88,6 +109,7 @@ public class SoundOnOff2 : MonoBehaviour
         if (soundSlider.value != 0)
         {
             valueS = soundSlider.value;
+            PlayerPrefs.SetFloat("valueS", valueS);
         }
         if (PlayerPrefs.GetInt("nonmuted") == 1)
         {
@@ -96,7 +118,7 @@ public class SoundOnOff2 : MonoBehaviour
         }
         else
         {
-            soundSlider.value = valueS;
+            soundSlider.value = PlayerPrefs.GetFloat("valueS");
             soundSlider.interactable = true;
         }
 
@@ -104,6 +126,7 @@ public class SoundOnOff2 : MonoBehaviour
     public void Update()
     {
         PlayerPrefs.SetFloat("soundSlider", soundSlider.value);
+
 
     }
 }
