@@ -32,9 +32,10 @@ public class Energy : MonoBehaviour
     }
     public void UseEnergy()
     {
-        if(currentEnergy >= 10)
+        if(currentEnergy >= 10 && PlayerPrefs.GetInt("infiniteEnergy") == 0)
         {
             currentEnergy-=10;
+            PlayerPrefs.SetInt("currentEnergy", currentEnergy);
 
             UpdateEnergy();
             if(isRestoring == false)
@@ -52,11 +53,12 @@ public class Energy : MonoBehaviour
         }
     }
     public void AddEnergy()
-    { if (currentEnergy < maxEnergy)
+    { if (currentEnergy <= maxEnergy && PlayerPrefs.GetInt("infiniteEnergy") == 0)
         {
             currentEnergy += 10;
             UpdateEnergy();
             UpdateEnergyTimer();
+            PlayerPrefs.SetInt("currentEnergy", currentEnergy);
             AudioManager.Instance.PlaySound("Click");
         }
         else
@@ -64,7 +66,7 @@ public class Energy : MonoBehaviour
     }
 
 
-    private IEnumerator RestoreEnergy()
+    public IEnumerator RestoreEnergy()
     {
         UpdateEnergyTimer();
         isRestoring = true;
@@ -79,7 +81,7 @@ public class Energy : MonoBehaviour
                 if(currentEnergy < maxEnergy)
                 {
                     isEnergyAdding = true;
-                    currentEnergy+=5;
+                    currentEnergy+=10;
                     UpdateEnergy();
                     DateTime timeToAdd = lastEnergyTime > nextDateTime ? lastEnergyTime : nextDateTime;
                     nextDateTime = AddDuration(timeToAdd, restoreDuration);
@@ -101,11 +103,11 @@ public class Energy : MonoBehaviour
         }
         isRestoring = false;
     }
-    private DateTime AddDuration(DateTime datetime, int duration)
+    public DateTime AddDuration(DateTime datetime, int duration)
     {
         return datetime.AddSeconds(duration);
     }
-    private void UpdateEnergyTimer()
+    public void UpdateEnergyTimer()
     {
         if(currentEnergy >= maxEnergy)
         {
@@ -113,16 +115,25 @@ public class Energy : MonoBehaviour
             return;
         }
         TimeSpan time = nextEnergyTime - DateTime.Now;
-        string timeValue = String.Format("{0:D2}:{1:D1}", time.Minutes, time.Seconds);
+        string timeValue = String.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
         timerText.text = timeValue;
     }
-    private void UpdateEnergy()
+    private void Update()
+    {
+        if (PlayerPrefs.GetInt("infiniteEnergy") == 1)
+        {
+            timerText.text = "INFINITE";
+            currentEnergy = 50;
+            PlayerPrefs.SetInt("currentEnergy", currentEnergy);
+        }
+    }
+    public void UpdateEnergy()
     {
         energyText.text = currentEnergy.ToString() + "/" + maxEnergy.ToString();
         energyBar.maxValue = maxEnergy;
         energyBar.value = currentEnergy;
     }
-    private DateTime StringToDate(string datetime)
+    public DateTime StringToDate(string datetime)
     {
         if (String.IsNullOrEmpty(datetime))
         {
@@ -133,13 +144,13 @@ public class Energy : MonoBehaviour
             return DateTime.Parse(datetime);
         }
     }
-    private void Load()
+    public void Load()
     {
         currentEnergy = PlayerPrefs.GetInt("currentEnergy");
         nextEnergyTime = StringToDate(PlayerPrefs.GetString("nextEnergyTime"));
         lastEnergyTime = StringToDate(PlayerPrefs.GetString("lastEnergyTime"));
     }
-    private void Save()
+    public void Save()
     {
         PlayerPrefs.SetInt("currentEnergy", currentEnergy);
         PlayerPrefs.SetString("nextEnergyTime", nextEnergyTime.ToString());

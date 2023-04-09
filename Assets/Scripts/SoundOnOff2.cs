@@ -14,7 +14,6 @@ public class SoundOnOff2 : MonoBehaviour
     public Slider soundSlider;
     public float valueS;
     private bool nonmuted = false;
-    private int seer2 = 0;
     void Start()
     {
         if (!PlayerPrefs.HasKey("nonmuted"))
@@ -31,16 +30,17 @@ public class SoundOnOff2 : MonoBehaviour
         {
             soundSlider.value = 0.5f;
             PlayerPrefs.SetInt("FirstTimeSound", 1);
+            Save();
+            UpdateButtonIcon();
         }
         else
             soundSlider.value = PlayerPrefs.GetFloat("soundSlider");
-        if (soundSlider.value == 0)
+        if (PlayerPrefs.GetInt("nonmuted") == 1)
         {
             soundSlider.interactable = false;
             nonmuted = true;
             Save();
             UpdateButtonIcon();
-            seer2 = 1;
         }
         else
         {
@@ -66,10 +66,10 @@ public class SoundOnOff2 : MonoBehaviour
             soundSlider.interactable = true;
         }
         if (soundSlider.value == 0 || nonmuted == true)
+        { 
             AudioManager.Instance.ToggleSFX();
-
-        if (seer2 == 1)
-            AudioManager.Instance.ToggleSFX();
+            PlayerPrefs.SetInt("nonmuted", 1);         
+        }
         Save();
         UpdateButtonIcon();
     }
@@ -79,11 +79,13 @@ public class SoundOnOff2 : MonoBehaviour
         {
             nonmuted = true;
             soundSlider.interactable = false;
+            PlayerPrefs.SetInt("nonmuted", 1);
         }
         else
         {
             nonmuted = false;
             soundSlider.interactable = true;
+            PlayerPrefs.SetInt("nonmuted", 0);
         }
         Save();
         UpdateButtonIcon();
@@ -121,13 +123,16 @@ public class SoundOnOff2 : MonoBehaviour
         {
             soundSlider.value = 0;
             soundSlider.interactable = false;
+            PlayerPrefs.SetInt("nonmuted", 1);
         }
         else
         {
             soundSlider.value = PlayerPrefs.GetFloat("valueS");
             soundSlider.interactable = true;
+            PlayerPrefs.SetInt("nonmuted", 0);
         }
-
+        Save();
+        UpdateButtonIcon();
     }
     public void Update()
     {

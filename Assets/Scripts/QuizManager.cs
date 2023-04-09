@@ -38,8 +38,7 @@ public class QuizManager : MonoBehaviour
     public Button[] answerButtons;
     public GameObject clickedButton;
     public int currentEnergy;
-    [SerializeField] Text energyTextGO;
-    [SerializeField] Text energyTextPO;
+    [SerializeField] InterstitialAdsButton interstitialAdsButton;
 
 
 
@@ -56,6 +55,8 @@ public class QuizManager : MonoBehaviour
         PausePanel.SetActive(false);
         answerButtons = GameObject.FindObjectsOfType<Button>();
         generateQuestion();
+        currentEnergy = PlayerPrefs.GetInt("currentEnergy");
+        PlayerPrefs.SetInt("adInitialized", 0);
 
 
     }
@@ -64,14 +65,19 @@ public class QuizManager : MonoBehaviour
 
     void Update()
     {
-        if (keepTiming == true)
+        if (keepTiming == true || PlayerPrefs.GetInt("timer") == 1)
         {
             currentTime -= Time.deltaTime;
             SetTime(currentTime);
         }
-        currentEnergy = PlayerPrefs.GetInt("currentEnergy");
-        energyTextGO.text = currentEnergy.ToString() + "/50";
-        energyTextPO.text = currentEnergy.ToString() + "/50";
+        else
+        { 
+            PlayerPrefs.SetInt("timer", 0);
+        }
+        if (PlayerPrefs.GetInt("timer") == 0)
+            keepTiming = false;
+        else
+            keepTiming = true;
 
 
     }
@@ -90,13 +96,15 @@ public class QuizManager : MonoBehaviour
     }
 
     public void retry()
-    { 
+    {
         if (PlayerPrefs.GetInt("currentEnergy") >= 10)
         {
-            PlayerPrefs.SetInt("currentEnergy", currentEnergy - 10);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            keepTiming = true;
+            PlayerPrefs.SetInt("timer", 1);
             AudioManager.Instance.PlaySound("Click");
             AudioManager.Instance.PlayMusic("Music");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            PlayerPrefs.SetInt("adInitialized", 1);
         }
         else
             AudioManager.Instance.PlaySound("Incorrect");
@@ -107,38 +115,25 @@ public class QuizManager : MonoBehaviour
         AudioManager.Instance.PlaySound("Click");
         AudioManager.Instance.StopSound("Music");
         keepTiming = false;
+        PlayerPrefs.SetInt("timer", 0);
 
 
-    }
-    public void adreward()
-    {
-        if (PlayerPrefs.GetInt("currentEnergy") <= 40)
-        {
-            PlayerPrefs.SetInt("currentEnergy", currentEnergy + 10);
-            AudioManager.Instance.PlaySound("Click");
-        }
-        else
-            AudioManager.Instance.PlaySound("Incorrect");
-
-    }  
+    } 
     public void resume()
     {
         PausePanel.SetActive(false);
         AudioManager.Instance.PlaySound("Click");
-        AudioManager.Instance.PlaySound("Music");
+        AudioManager.Instance.PlayMusic("Music");
         keepTiming = true;
+        PlayerPrefs.SetInt("timer", 1);
     }
     public void nextScene()
     {
-        if (PlayerPrefs.GetInt("currentEnergy") >= 10)
-        {
-            PlayerPrefs.SetInt("currentEnergy", currentEnergy - 10);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             AudioManager.Instance.PlaySound("Click");
             AudioManager.Instance.PlayMusic("Music");
-        }
-        else
-            AudioManager.Instance.PlaySound("Incorrect");
+            PlayerPrefs.SetInt("timer", 1);
+            keepTiming = true;
     }
 
     public void inGameScore()
@@ -148,9 +143,10 @@ public class QuizManager : MonoBehaviour
     }
 
     void GameOver()
-    {
+    {  
         GoPanel.SetActive(true);
         keepTiming = false;
+        PlayerPrefs.SetInt("timer", 0);
         AudioManager.Instance.StopSound("Music");
         ScoreTxt.text = "You got " + score + "/" + totalQuestions + " questions right!";
 
